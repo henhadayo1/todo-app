@@ -1,32 +1,22 @@
 import axios, { AxiosError } from "axios";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Todo from "../Models/Todo";
+import useApi from "../Hooks/useApi";
 
 const Home: React.FC = () => {
   const [input, setInput] = useState<string>("");
   const [todos, setTodos] = useState<Todo[]>([]);
 
+  const { data: fetchTodos } = useApi<Todo[]>("http://localhost:4000/todos", {
+    method: "GET",
+  });
+
   useEffect(() => {
-    async function fetchTodos() {
-      try {
-        const { data: todos } = await axios.get<Todo[]>(
-          "http://localhost:4000/todos"
-        );
-
-        setTodos(todos);
-      } catch (error: unknown) {
-        let errorMessage = "Error has occurred ";
-        if (error instanceof AxiosError) {
-          errorMessage += error.response?.data?.message;
-        } else if (error instanceof Error) {
-          errorMessage += error.message;
-        }
-        console.log(errorMessage);
-      }
+    console.log(fetchTodos);
+    if (fetchTodos) {
+      setTodos(fetchTodos);
     }
-
-    fetchTodos();
-  }, []);
+  }, [fetchTodos]);
 
   function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -73,7 +63,7 @@ const Home: React.FC = () => {
 
       {/* Todo list */}
       <div>
-        {todos.map((todo) => (
+        {todos?.map((todo) => (
           <div key={todo._id}>{todo.text}</div>
         ))}
       </div>
