@@ -6,6 +6,7 @@ const useApi = <T>(url: string, config: AxiosRequestConfig) => {
   const [data, setData] = useState<T | undefined>(undefined);
 
   // TODO: Add loading and error states and export them out
+  // TODO: Add functionality for calling if from a function, e.g. to add todo
 
   useEffect(() => {
     async function getData() {
