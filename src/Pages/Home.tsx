@@ -41,6 +41,7 @@ const Home: React.FC = () => {
           text: input,
         }
       );
+      setTodos([todo, ...todos]);
 
       console.log(todo);
     } catch (error: unknown) {
