@@ -1,9 +1,32 @@
 import axios, { AxiosError } from "axios";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Todo from "../Models/Todo";
 
 const Home: React.FC = () => {
   const [input, setInput] = useState<string>("");
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    async function fetchTodos() {
+      try {
+        const { data: todos } = await axios.get<Todo[]>(
+          "http://localhost:4000/todos"
+        );
+
+        setTodos(todos);
+      } catch (error: unknown) {
+        let errorMessage = "Error has occurred ";
+        if (error instanceof AxiosError) {
+          errorMessage += error.response?.data?.message;
+        } else if (error instanceof Error) {
+          errorMessage += error.message;
+        }
+        console.log(errorMessage);
+      }
+    }
+
+    fetchTodos();
+  }, []);
 
   function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -34,6 +57,7 @@ const Home: React.FC = () => {
   return (
     <>
       <h1>Home page</h1>
+      {/* Add todo form */}
       <form onSubmit={submitEventHandler}>
         <input
           type="text"
@@ -45,6 +69,13 @@ const Home: React.FC = () => {
         />
         <input type="submit" value="Add" />
       </form>
+
+      {/* Todo list */}
+      <div>
+        {todos.map((todo) => (
+          <div key={todo._id}>{todo.text}</div>
+        ))}
+      </div>
     </>
   );
 };
