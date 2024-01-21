@@ -1,7 +1,14 @@
+import { Route, Routes } from "react-router-dom";
+import Home from "./Pages/Home";
+import NotFound from "./Pages/NotFound";
+
 function App() {
   return (
     <>
-      <h1>Todos App</h1>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
   );
 }
