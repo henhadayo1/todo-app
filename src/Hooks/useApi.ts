@@ -1,18 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-const useApi = <T>(url: string, config: AxiosRequestConfig) => {
-  const [data, setData] = useState<T | undefined>(undefined);
+const useApi = <T>(url: string, config?: AxiosRequestConfig) => {
+  const [data, setData] = useState<T | undefined>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  // TODO: Add loading and error states and export them out
-  // TODO: Add functionality for calling if from a function, e.g. to add todo
-
-  useEffect(() => {
-    async function getData() {
+  const sendRequest = useCallback(
+    async function sendRequest(data?: unknown, params?: unknown) {
+      setIsLoading(true);
+      setErrorMessage("");
       try {
-        const { data } = await axios<T>(url, config);
-        setData(data);
+        console.log("Sending request to " + url);
+        const { data: fetchedData } = await axios(url, {
+          ...config,
+          data,
+          params,
+        });
+        setData(fetchedData);
       } catch (error: unknown) {
         let errorMessage = "Error has occurred ";
         if (error instanceof AxiosError) {
@@ -20,13 +25,21 @@ const useApi = <T>(url: string, config: AxiosRequestConfig) => {
         } else if (error instanceof Error) {
           errorMessage += error.message;
         }
-        console.log(errorMessage);
+        setErrorMessage(errorMessage);
+        throw new Error(errorMessage);
       }
-    }
-    getData();
-  }, []);
+      setIsLoading(false);
+    },
+    [config, url]
+  );
 
-  return { data };
+  useEffect(() => {
+    if (!config || !config.method || config.method.toUpperCase() === "GET") {
+      sendRequest();
+    }
+  }, [sendRequest, config]);
+
+  return { sendRequest, data, isLoading, errorMessage };
 };
 
 export default useApi;

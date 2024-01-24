@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Todo from "../models/Todo";
-import useApi2 from "../hooks/useApi2";
+import useApi from "../hooks/useApi";
 import { AxiosRequestConfig } from "axios";
 
 const newTodoConfig: AxiosRequestConfig = {
@@ -14,13 +14,13 @@ const Home: React.FC = () => {
     sendRequest: sendNewTodo,
     isLoading: isSendNewTodoLoading,
     errorMessage: sendNewTodoError,
-  } = useApi2<Todo>("http://localhost:4000/todos", newTodoConfig);
+  } = useApi<Todo>("http://localhost:4000/todos", newTodoConfig);
 
   const {
     data: todos,
     isLoading: isFetchTodosLoading,
     errorMessage: fetchTodosError,
-  } = useApi2<Todo[]>("http://localhost:4000/todos");
+  } = useApi<Todo[]>("http://localhost:4000/todos");
 
   function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
