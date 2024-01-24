@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import Todo from "../models/Todo";
 import useApi from "../hooks/useApi";
 import { AxiosRequestConfig } from "axios";
+import TodoList from "../components/TodoList";
 
 const newTodoConfig: AxiosRequestConfig = {
   method: "POST",
@@ -15,12 +16,6 @@ const Home: React.FC = () => {
     isLoading: isSendNewTodoLoading,
     errorMessage: sendNewTodoError,
   } = useApi<Todo>("http://localhost:4000/todos", newTodoConfig);
-
-  const {
-    data: todos,
-    isLoading: isFetchTodosLoading,
-    errorMessage: fetchTodosError,
-  } = useApi<Todo[]>("http://localhost:4000/todos");
 
   function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -49,12 +44,7 @@ const Home: React.FC = () => {
         {sendNewTodoError && <span>{sendNewTodoError}</span>}
       </form>
 
-      {/* Todo list */}
-      <div>
-        {isFetchTodosLoading && <span>Fetching todos...</span>}
-        {fetchTodosError && <span>{fetchTodosError}</span>}
-        {todos && todos.map((todo) => <div key={todo._id}>{todo.text}</div>)}
-      </div>
+      <TodoList />
     </>
   );
 };
