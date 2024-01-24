@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from "axios";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import useApi from "../hooks/useApi";
 import Todo from "../models/Todo";
 
@@ -14,6 +14,8 @@ const deleteTodoApiConfig: AxiosRequestConfig = {
 
 const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>(text);
+
   const { sendRequest: deleteTodo } = useApi<Todo>(
     "todos",
     deleteTodoApiConfig
@@ -25,7 +27,17 @@ const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
   return (
     <div>
       {text}
-      {isEdit ? <input type="text" value={text} /> : text}
+      {isEdit ? (
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(event: ChangeEvent<HTMLInputElement>) =>
+            setInputValue(event.target.value)
+          }
+        />
+      ) : (
+        text
+      )}
       <button onClick={() => deleteClickEventHandler(id)}>X</button>
       <button onClick={() => setIsEdit(!isEdit)}>Edit</button>
     </div>
