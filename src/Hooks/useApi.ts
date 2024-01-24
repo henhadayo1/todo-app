@@ -7,16 +7,22 @@ const useApi = <T>(url: string, config?: AxiosRequestConfig) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const sendRequest = useCallback(
-    async function sendRequest(data?: unknown, params?: unknown) {
+    async function sendRequest(requestedConfig?: AxiosRequestConfig) {
       setIsLoading(true);
       setErrorMessage("");
       try {
-        console.log("Sending request to " + url);
-        const { data: fetchedData } = await axios(url, {
-          ...config,
-          data,
-          params,
-        });
+        console.log(
+          "Sending request to " + requestedConfig?.url
+            ? requestedConfig?.url
+            : url
+        );
+        const { data: fetchedData } = await axios(
+          requestedConfig?.url ? requestedConfig?.url : url,
+          {
+            ...config,
+            ...requestedConfig,
+          }
+        );
         setData(fetchedData);
       } catch (error: unknown) {
         let errorMessage = "Error has occurred ";
