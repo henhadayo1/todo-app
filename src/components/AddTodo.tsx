@@ -11,7 +11,7 @@ const AddTodo = () => {
   const [input, setInput] = useState<string>("");
 
   const { sendRequest, isLoading, errorMessage } = useApi<Todo>(
-    "http://localhost:4000/todos",
+    import.meta.env.VITE_TODOS_API_URL,
     apiConfig
   );
 

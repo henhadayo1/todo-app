@@ -6,7 +6,7 @@ const TodoList = () => {
     data: todos,
     isLoading,
     errorMessage,
-  } = useApi<Todo[]>("http://localhost:4000/todos");
+  } = useApi<Todo[]>(import.meta.env.VITE_TODOS_API_URL);
 
   return (
     <div>
