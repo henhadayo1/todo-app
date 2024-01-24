@@ -8,7 +8,7 @@ const apiConfig: AxiosRequestConfig = {
 };
 
 const AddTodo = () => {
-  const [input, setInput] = useState<string>("");
+  const [inputValue, setInputValue] = useState<string>("");
 
   const { sendRequest, isLoading, errorMessage } = useApi<Todo>(
     "todos",
@@ -17,7 +17,7 @@ const AddTodo = () => {
 
   function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    sendRequest({ data: { text: input } });
+    sendRequest({ data: { text: inputValue } });
   }
 
   return (
@@ -25,9 +25,9 @@ const AddTodo = () => {
       <input
         type="text"
         placeholder="Add new todo"
-        value={input}
+        value={inputValue}
         onChange={(event: ChangeEvent<HTMLInputElement>) =>
-          setInput(event.target.value)
+          setInputValue(event.target.value)
         }
       />
       <input type="submit" value="Add" />
