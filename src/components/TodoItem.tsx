@@ -12,6 +12,10 @@ const deleteTodoApiConfig: AxiosRequestConfig = {
   method: "DELETE",
 };
 
+const updateTodoApiConfig: AxiosRequestConfig = {
+  method: "PATCH",
+};
+
 const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(text);
@@ -20,13 +24,24 @@ const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
     "todos",
     deleteTodoApiConfig
   );
-  function deleteClickEventHandler(id: string) {
+
+  const { sendRequest: updateTodo } = useApi<Todo>(
+    "todos",
+    updateTodoApiConfig
+  );
+  function deleteClickEventHandler() {
     deleteTodo({ url: `todos/${id}` });
+  }
+
+  function updateEventClickHandler() {
+    updateTodo({
+      url: `todos/${id}`,
+      data: { text: inputValue },
+    });
   }
 
   return (
     <div>
-      {text}
       {isEdit ? (
         <input
           type="text"
@@ -38,8 +53,10 @@ const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
       ) : (
         text
       )}
-      <button onClick={() => deleteClickEventHandler(id)}>X</button>
+      <button onClick={deleteClickEventHandler}>X</button>
       <button onClick={() => setIsEdit(!isEdit)}>Edit</button>
+
+      {isEdit && <button onClick={updateEventClickHandler}>Update</button>}
     </div>
   );
 };
