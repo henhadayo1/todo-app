@@ -1,14 +1,27 @@
-import useApi from "../hooks/useApi";
-import Todo from "../models/Todo";
+import { useEffect } from "react";
 import TodoItem from "./TodoItem";
+import { fetchTodos } from "../state/todos/todosSlice";
+import { useAppDispatch, useAppSelector } from "../state/store";
 
 const TodoList = () => {
-  const { data: todos, isLoading, errorMessage } = useApi<Todo[]>("todos");
+  const dispatch = useAppDispatch();
+
+  const {
+    todos,
+    status: todosStatus,
+    error: todosError,
+  } = useAppSelector((state) => state.todos);
+
+  useEffect(() => {
+    if (todosStatus === "idle") {
+      dispatch(fetchTodos());
+    }
+  }, [todosStatus, dispatch]);
 
   return (
     <div>
-      {isLoading && <span>Fetching todos...</span>}
-      {errorMessage && <span>{errorMessage}</span>}
+      {todosStatus === "loading" && <span>Fetching todos...</span>}
+      {todosStatus === "failed" && <span>{todosError}</span>}
       {todos &&
         todos.map((todo) => (
           <TodoItem key={todo._id} id={todo._id} text={todo.text} />
