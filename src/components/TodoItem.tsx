@@ -18,6 +18,7 @@ const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(text);
   const dispatch = useAppDispatch();
+  // TODO: Add status and error state from redux
 
   const { sendRequest: updateTodo } = useApi<Todo>(
     "todos",

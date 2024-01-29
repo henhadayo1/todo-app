@@ -42,6 +42,7 @@ const todosSlice = createSlice({
         );
         state.todos.splice(todoIndex, 1);
       });
+    //TODO: Add addCase for updateTodo.fulfilled
   },
 });
 
@@ -64,5 +65,7 @@ export const deleteTodo = createAsyncThunk(
     return thunkAPI.fulfillWithValue(_id);
   }
 );
+
+//TODO: Add updateTodo thunk
 
 export default todosSlice.reducer;

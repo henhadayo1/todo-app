@@ -5,6 +5,7 @@ import { addTodo } from "../state/todos/todosSlice";
 const AddTodo = () => {
   const [inputValue, setInputValue] = useState<string>("");
   const dispatch = useAppDispatch();
+  //TODO: Add status and error in state from redux
 
   function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
