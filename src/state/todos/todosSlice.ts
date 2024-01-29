@@ -30,13 +30,24 @@ const todosSlice = createSlice({
       .addCase(fetchTodos.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || null;
+      })
+      .addCase(addTodo.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.todos.unshift(action.payload);
       });
   },
 });
 
-// TODO: Code refactoring here
 export const fetchTodos = createAsyncThunk("todos/fetchTodos", async () => {
-  return (await axios.get<Todo[]>("http://localhost:4000/todos")).data;
+  return (await axios<Todo[]>({ url: "todos" })).data;
 });
+
+export const addTodo = createAsyncThunk(
+  "todos/addTodo",
+  async (text: string) => {
+    return (await axios<Todo>({ method: "POST", url: "todos", data: { text } }))
+      .data;
+  }
+);
 
 export default todosSlice.reducer;
