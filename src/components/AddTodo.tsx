@@ -1,23 +1,14 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import useApi from "../hooks/useApi";
-import Todo from "../models/Todo";
-import { AxiosRequestConfig } from "axios";
-
-const apiConfig: AxiosRequestConfig = {
-  method: "POST",
-};
+import { useAppDispatch } from "../state/hooks";
+import { addTodo } from "../state/todos/todosSlice";
 
 const AddTodo = () => {
   const [inputValue, setInputValue] = useState<string>("");
-
-  const { sendRequest, isLoading, errorMessage } = useApi<Todo>(
-    "todos",
-    apiConfig
-  );
+  const dispatch = useAppDispatch();
 
   function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    sendRequest({ data: { text: inputValue } });
+    dispatch(addTodo(inputValue));
   }
 
   return (
@@ -31,8 +22,8 @@ const AddTodo = () => {
         }
       />
       <input type="submit" value="Add" />
-      {isLoading && <span>Sending data...</span>}
-      {errorMessage && <span>{errorMessage}</span>}
+      {/* {isLoading && <span>Sending data...</span>}
+      {errorMessage && <span>{errorMessage}</span>} */}
     </form>
   );
 };
