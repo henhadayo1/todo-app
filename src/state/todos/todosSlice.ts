@@ -34,6 +34,13 @@ const todosSlice = createSlice({
       .addCase(addTodo.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.todos.unshift(action.payload);
+      })
+      .addCase(deleteTodo.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        const todoIndex = state.todos.findIndex(
+          (todo) => todo._id === action.payload
+        );
+        state.todos.splice(todoIndex, 1);
       });
   },
 });
@@ -47,6 +54,14 @@ export const addTodo = createAsyncThunk(
   async (text: string) => {
     return (await axios<Todo>({ method: "POST", url: "todos", data: { text } }))
       .data;
+  }
+);
+
+export const deleteTodo = createAsyncThunk(
+  "todos/deleteTodo",
+  async (_id: string, thunkAPI) => {
+    await axios<Todo>({ method: "DELETE", url: `todos/${_id}` });
+    return thunkAPI.fulfillWithValue(_id);
   }
 );
 
