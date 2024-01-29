@@ -2,15 +2,13 @@ import { AxiosRequestConfig } from "axios";
 import React, { ChangeEvent, useState } from "react";
 import useApi from "../hooks/useApi";
 import Todo from "../models/Todo";
+import { useAppDispatch } from "../state/hooks";
+import { deleteTodo } from "../state/todos/todosSlice";
 
 interface TodoProps {
   id: string;
   text: string;
 }
-
-const deleteTodoApiConfig: AxiosRequestConfig = {
-  method: "DELETE",
-};
 
 const updateTodoApiConfig: AxiosRequestConfig = {
   method: "PATCH",
@@ -19,18 +17,14 @@ const updateTodoApiConfig: AxiosRequestConfig = {
 const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(text);
-
-  const { sendRequest: deleteTodo } = useApi<Todo>(
-    "todos",
-    deleteTodoApiConfig
-  );
+  const dispatch = useAppDispatch();
 
   const { sendRequest: updateTodo } = useApi<Todo>(
     "todos",
     updateTodoApiConfig
   );
   function deleteClickEventHandler() {
-    deleteTodo({ url: `todos/${id}` });
+    dispatch(deleteTodo(id));
   }
 
   function updateEventClickHandler() {
