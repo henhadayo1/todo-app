@@ -1,15 +1,21 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useAppDispatch } from "../state/hooks";
-import { addTodo } from "../state/todos/todosSlice";
+import { useAddTodoMutation } from "../state/api/apiSlice";
 
 const AddTodo = () => {
   const [inputValue, setInputValue] = useState<string>("");
-  const dispatch = useAppDispatch();
-  //TODO: Add status and error in state from redux
+  const [addTodo, { isLoading, isError, error, isSuccess }] =
+    useAddTodoMutation();
 
-  function submitEventHandler(event: FormEvent<HTMLFormElement>) {
+  async function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    dispatch(addTodo(inputValue));
+    addTodo(inputValue);
+  }
+
+  function renderIndication() {
+    if (isLoading) return <div>Adding new todo...</div>;
+    if (isError)
+      return <div> {error?.toString() || "Failed to add a todo"}</div>;
+    if (isSuccess) return <div>Todo successfully added!</div>;
   }
 
   return (
@@ -23,8 +29,7 @@ const AddTodo = () => {
         }
       />
       <input type="submit" value="Add" />
-      {/* {isLoading && <span>Sending data...</span>}
-      {errorMessage && <span>{errorMessage}</span>} */}
+      {renderIndication()}
     </form>
   );
 };
