@@ -10,15 +10,12 @@ const TodoList = () => {
     error,
   } = useGetTodosQuery();
 
-  if (isLoading || isFetching) {
-    return "Fetching todos...";
-  } else if (isError) {
-    return error.toString();
-  } else {
-    return todos?.map((todo) => {
-      return <TodoItem key={todo._id} id={todo._id} text={todo.text} />;
-    });
-  }
+  if (isLoading || isFetching) return <div>Fetching todos...</div>;
+  if (isError) return <div>{error.toString()}</div>;
+
+  return todos?.map((todo) => {
+    return <TodoItem key={todo._id} id={todo._id} text={todo.text} />;
+  });
 };
 
 export default TodoList;
