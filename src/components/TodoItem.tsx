@@ -1,36 +1,26 @@
-import { AxiosRequestConfig } from "axios";
 import React, { ChangeEvent, useState } from "react";
-import useApi from "../hooks/useApi";
-import Todo from "../models/Todo";
-import { useDeleteTodoMutation } from "../state/api/apiSlice";
+import {
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+} from "../state/api/apiSlice";
 
 interface TodoProps {
   id: string;
   text: string;
 }
 
-const updateTodoApiConfig: AxiosRequestConfig = {
-  method: "PATCH",
-};
-
 const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>(text);
   const [deleteTodo] = useDeleteTodoMutation();
+  const [updateTodo] = useUpdateTodoMutation();
 
-  const { sendRequest: updateTodo } = useApi<Todo>(
-    "todos",
-    updateTodoApiConfig
-  );
   function deleteClickEventHandler() {
     deleteTodo(id);
   }
 
   function updateEventClickHandler() {
-    updateTodo({
-      url: `todos/${id}`,
-      data: { text: inputValue },
-    });
+    updateTodo({ _id: id, text: inputValue });
   }
 
   return (
