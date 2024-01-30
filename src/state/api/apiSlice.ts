@@ -6,9 +6,11 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_TODOS_API_BASE_URL,
   }),
+  tagTypes: ["Todos"],
   endpoints: (builder) => ({
     getTodos: builder.query<Todo[], void>({
       query: () => "/todos",
+      providesTags: ["Todos"],
     }),
     addTodo: builder.mutation<Todo, string>({
       query: (text) => ({
@@ -16,6 +18,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: { text },
       }),
+      invalidatesTags: ["Todos"],
     }),
   }),
 });
