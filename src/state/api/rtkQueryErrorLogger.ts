@@ -3,6 +3,7 @@ import { Middleware, isRejectedWithValue } from "@reduxjs/toolkit";
 export const rtkQueryErrorLogger: Middleware = () => (next) => (action) => {
   if (isRejectedWithValue(action)) {
     let message = "Internal server error ";
+    //TODO: Find a solution for typing here
     if ("data" in action.payload) {
       message += (action.payload.data as { message: string }).message;
     } else if ("data" in action.error) {
