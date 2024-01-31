@@ -1,26 +1,20 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useAddTodoMutation } from "../state/api/apiSlice";
+import Button from "../styles/button.styled";
+import Input from "../styles/input.styled";
 
 const AddTodo = () => {
   const [inputValue, setInputValue] = useState<string>("");
-  const [addTodo, { isLoading, isError, error, isSuccess }] =
-    useAddTodoMutation();
+  const [addTodo, { isLoading, isError, error }] = useAddTodoMutation();
 
   async function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     addTodo(inputValue);
   }
 
-  function renderIndication() {
-    if (isLoading) return <div>Adding new todo...</div>;
-    if (isError)
-      return <div> {error?.toString() || "Failed to add a todo"}</div>;
-    if (isSuccess) return <div>Todo successfully added!</div>;
-  }
-
   return (
     <form onSubmit={submitEventHandler}>
-      <input
+      <Input
         type="text"
         placeholder="Add new todo"
         value={inputValue}
@@ -28,8 +22,9 @@ const AddTodo = () => {
           setInputValue(event.target.value)
         }
       />
-      <input type="submit" value="Add" />
-      {renderIndication()}
+      <Button>Add Todo</Button>
+      {isLoading && <div>Adding new todo...</div>}
+      {isError && <div> {error?.toString() || "Failed to add a todo"}</div>}
     </form>
   );
 };
