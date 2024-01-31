@@ -1,11 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import todosReducer from "./todos/todosSlice";
 import { apiSlice } from "./api/apiSlice";
-
-// export interface GenericState<T> {
-//   data?: T;
-//   status: "idle" | "loading" | "succeeded" | "failed";
-// }
+import { rtkQueryErrorLogger } from "./api/rtkQueryErrorLogger";
 
 export const store = configureStore({
   reducer: {
@@ -13,7 +9,7 @@ export const store = configureStore({
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(apiSlice.middleware),
+    getDefaultMiddleware().concat([apiSlice.middleware, rtkQueryErrorLogger]),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
