@@ -1,0 +1,14 @@
+:root {
+  font-family: sans-serif;
+
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
