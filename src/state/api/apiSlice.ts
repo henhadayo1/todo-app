@@ -18,14 +18,40 @@ export const apiSlice = createApi({
         method: "POST",
         body: { text },
       }),
-      invalidatesTags: ["Todos"],
+      // Pessimistic update
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        try {
+          const { data: newTodo } = await queryFulfilled;
+          dispatch(
+            apiSlice.util.updateQueryData("getTodos", undefined, (draft) => {
+              draft.unshift(newTodo);
+            })
+          );
+        } catch (error: unknown) {
+          //TODO: Handle error
+          console.log(error);
+        }
+      },
     }),
     deleteTodo: builder.mutation<Todo, string>({
       query: (_id) => ({
         url: `/todos/${_id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Todos"],
+      async onQueryStarted(_id, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            apiSlice.util.updateQueryData("getTodos", undefined, (draft) => {
+              const findIndex = draft.findIndex((todo) => todo._id === _id);
+              draft.splice(findIndex, 1);
+            })
+          );
+        } catch (error: unknown) {
+          //TODO: Handle error
+          console.log(error);
+        }
+      },
     }),
     updateTodo: builder.mutation<Todo, { _id: string; text: string }>({
       query: ({ _id, text }) => ({
@@ -33,7 +59,20 @@ export const apiSlice = createApi({
         method: "PATCH",
         body: { text },
       }),
-      invalidatesTags: ["Todos"],
+      async onQueryStarted({ _id, text }, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            apiSlice.util.updateQueryData("getTodos", undefined, (draft) => {
+              const findIndex = draft.findIndex((todo) => todo._id === _id);
+              draft[findIndex].text = text;
+            })
+          );
+        } catch (error: unknown) {
+          //TODO: Handle error
+          console.log(error);
+        }
+      },
     }),
   }),
 });
