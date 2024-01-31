@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useAddTodoMutation } from "../state/api/apiSlice";
-import Button from "../styles/button.styled";
-import Input from "../styles/input.styled";
+import Button from "../styles/Button.styled";
+import Input from "../styles/Input.styled";
 
 const AddTodo = () => {
   const [inputValue, setInputValue] = useState<string>("");
