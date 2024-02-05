@@ -1,14 +1,13 @@
 import React from "react";
-import TodoList from "../components/TodoList";
-import AddTodo from "../components/AddTodo";
 
 const Home: React.FC = () => {
   return (
-    <>
-      <h1>Home page</h1>
-      <AddTodo />
-      <TodoList />
-    </>
+    <main>
+      <section>
+        <h2>Todo app</h2>
+        <p>With Todo App you can manage your todo list</p>
+      </section>
+    </main>
   );
 };
 
