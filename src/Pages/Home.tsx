@@ -1,11 +1,13 @@
 import React from "react";
+import TodoList from "../components/TodoList";
 
 const Home: React.FC = () => {
   return (
     <main>
       <section>
-        <h2>Todo app</h2>
-        <p>With Todo App you can manage your todo list</p>
+        <h2>Todos</h2>
+        {/* <AddTodo /> */}
+        <TodoList />
       </section>
     </main>
   );
