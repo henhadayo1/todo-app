@@ -53,3 +53,7 @@ footer {
 
   padding: 1rem;
 }
+
+.todo-list li {
+  cursor: pointer;
+}
