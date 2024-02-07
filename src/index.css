@@ -14,13 +14,17 @@
   line-height: 1.5;
 }
 
+ul {
+  list-style-type: none;
+}
+
 .wrapper-container {
   display: grid;
   grid-template-rows: 70px 1fr auto;
   min-height: 100vh;
 }
 
-header {
+.wrapper-container > header {
   position: sticky;
   top: 0;
   display: flex;
@@ -31,13 +35,21 @@ header {
   background: white;
   color: #1c1d1f;
 }
-main {
-  padding: 1rem;
-}
 
 footer {
   background: #1c1d1f;
   color: white;
 
   text-align: center;
+}
+
+.home_page-container {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+
+  padding: 1rem;
 }

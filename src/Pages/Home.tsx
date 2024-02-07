@@ -3,13 +3,15 @@ import TodoList from "../components/TodoList";
 
 const Home: React.FC = () => {
   return (
-    <main>
-      <section>
-        <h2>Todos</h2>
+    <div className="home_page-container">
+      <header>
+        <h2>Todo list</h2>
+      </header>
+      <main>
         {/* <AddTodo /> */}
         <TodoList />
-      </section>
-    </main>
+      </main>
+    </div>
   );
 };
 

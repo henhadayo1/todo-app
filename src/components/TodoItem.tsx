@@ -1,47 +1,12 @@
-import React, { ChangeEvent, useState } from "react";
-import {
-  useDeleteTodoMutation,
-  useUpdateTodoMutation,
-} from "../state/api/apiSlice";
+import React from "react";
 
-interface TodoProps {
-  id: string;
+interface TodoItemProps {
+  _id: string;
   text: string;
 }
 
-const TodoItem: React.FC<TodoProps> = ({ id, text }) => {
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>(text);
-  const [deleteTodo] = useDeleteTodoMutation();
-  const [updateTodo] = useUpdateTodoMutation();
-
-  function deleteClickEventHandler() {
-    deleteTodo(id);
-  }
-
-  function updateEventClickHandler() {
-    updateTodo({ _id: id, text: inputValue });
-  }
-
-  return (
-    <div>
-      {isEdit ? (
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(event: ChangeEvent<HTMLInputElement>) =>
-            setInputValue(event.target.value)
-          }
-        />
-      ) : (
-        text
-      )}
-      <button onClick={deleteClickEventHandler}>X</button>
-      <button onClick={() => setIsEdit(!isEdit)}>Edit</button>
-
-      {isEdit && <button onClick={updateEventClickHandler}>Update</button>}
-    </div>
-  );
+const TodoItem: React.FC<TodoItemProps> = ({ text }) => {
+  return <li>{text}</li>;
 };
 
 export default TodoItem;
