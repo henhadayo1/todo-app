@@ -6,9 +6,9 @@ const Home: React.FC = () => {
     <div className="home_page-container">
       <header>
         <h2>Todo list</h2>
+        <span className="plus-icon"></span>
       </header>
       <main>
-        {/* <AddTodo /> */}
         <TodoList />
       </main>
     </div>

@@ -53,7 +53,33 @@ footer {
 
   padding: 1rem;
 }
+.home_page-container > header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
 .todo-list li {
   cursor: pointer;
+}
+
+.plus-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: pointer;
+  background: #009688;
+  border-radius: 50%;
+  line-height: 1.5rem;
+}
+
+.plus-icon::after {
+  content: "+";
+  color: white;
+}
+
+.plus-icon:hover {
+  background: green;
 }
