@@ -14,7 +14,7 @@ const TodoList = () => {
   if (isError) return <div>{error.toString()}</div>;
 
   return (
-    <ul>
+    <ul className="todo-list">
       {todos?.map(({ _id: id, text }) => {
         return <TodoItem key={id} _id={id} text={text} />;
       })}
