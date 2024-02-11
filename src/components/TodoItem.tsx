@@ -13,7 +13,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ _id, text }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [inputValue, setInputValue] = useState(text);
   const [updateTodo, { isLoading }] = useUpdateTodoMutation();
-  const [deleteTodo] = useDeleteTodoMutation();
+  const [deleteTodo, { isLoading: isLoadingDelete }] = useDeleteTodoMutation();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   async function submitEventHandler(event: FormEvent<HTMLFormElement>) {
@@ -52,6 +52,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ _id, text }) => {
         className="delete-button"
         onClick={() => deleteTodo(_id)}
       ></button>
+      {isLoadingDelete && <span>Deleting...</span>}
     </li>
   );
 };
