@@ -1,13 +1,12 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
+import Header from "./layout/Header/Header";
 
 function App() {
   return (
     <div className="wrapper-container">
-      <header>
-        <h1>Todo App</h1>
-      </header>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
