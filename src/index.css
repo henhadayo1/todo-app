@@ -51,8 +51,6 @@ footer {
 
   border-left: 1px solid rgba(0, 0, 0, 0.1);
   border-right: 1px solid rgba(0, 0, 0, 0.1);
-
-  padding: 1rem;
 }
 .home_page-container > header {
   display: flex;
@@ -61,7 +59,50 @@ footer {
 }
 
 .todo-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.todo-list li:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+.todo-list li span {
   cursor: pointer;
+}
+
+.delete-button {
+  border: none;
+  width: 1rem;
+  height: 1rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 100ms ease-in-out;
+  background: none;
+}
+.delete-button::before,
+.delete-button::after {
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  width: 0.1rem;
+  height: 100%;
+  display: block;
+  position: relative;
+}
+
+.delete-button::after {
+  top: -100%;
+  transform: rotate(45deg);
+}
+.delete-button::before {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+.todo-list li:hover .delete-button {
+  opacity: 1;
+  visibility: visible;
 }
 
 .plus-button {

@@ -1,5 +1,8 @@
 import React, { FormEvent, useRef, useState } from "react";
-import { useUpdateTodoMutation } from "../state/api/apiSlice";
+import {
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+} from "../state/api/apiSlice";
 
 interface TodoItemProps {
   _id: string;
@@ -10,6 +13,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ _id, text }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [inputValue, setInputValue] = useState(text);
   const [updateTodo, { isLoading }] = useUpdateTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   async function submitEventHandler(event: FormEvent<HTMLFormElement>) {
@@ -41,7 +45,15 @@ const TodoItem: React.FC<TodoItemProps> = ({ _id, text }) => {
     );
   }
 
-  return <li onClick={() => setIsEdit(true)}>{text}</li>;
+  return (
+    <li>
+      <span onClick={() => setIsEdit(true)}>{text}</span>
+      <button
+        className="delete-button"
+        onClick={() => deleteTodo(_id)}
+      ></button>
+    </li>
+  );
 };
 
 export default TodoItem;
