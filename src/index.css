@@ -24,13 +24,6 @@ ul {
   min-height: 100vh;
 }
 
-footer {
-  background: #1c1d1f;
-  color: white;
-
-  text-align: center;
-}
-
 .home_page-container {
   max-width: 800px;
   width: 100%;
