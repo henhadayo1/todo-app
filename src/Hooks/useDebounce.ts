@@ -1,17 +1,17 @@
-import { useCallback } from "react";
+import { useEffect, useState } from "react";
 
-let timeoutId: number;
+const useDebounce = <T>(value: T, delay = 500) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
 
-const useDebounce = (
-  cb: (...args: unknown[]) => void,
-  delay: number = 1000
-) => {
-  return useCallback((...args: unknown[]) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      cb(...args);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setDebouncedValue(value);
     }, delay);
-  }, []);
+
+    return () => clearTimeout(timeoutId);
+  }, [value, delay]);
+
+  return debouncedValue;
 };
 
 export default useDebounce;
