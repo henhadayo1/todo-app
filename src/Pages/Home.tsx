@@ -1,6 +1,7 @@
 import React, { FormEvent, useRef, useState } from "react";
 import TodoList from "../components/TodoList";
 import { useAddTodoMutation } from "../state/api/apiSlice";
+import PageWrapper from "../layout/PageWrapper/PageWrapper";
 
 const Home: React.FC = () => {
   const [isShowNewTodo, setIsShowNewTodo] = useState(false);
@@ -16,7 +17,7 @@ const Home: React.FC = () => {
   }
 
   return (
-    <div className="home_page-container">
+    <PageWrapper>
       <header>
         <h2>Todo list</h2>
         <button
@@ -41,7 +42,7 @@ const Home: React.FC = () => {
         )}
         <TodoList />
       </main>
-    </div>
+    </PageWrapper>
   );
 };
 
