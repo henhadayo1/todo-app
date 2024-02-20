@@ -1,14 +1,23 @@
 import React, { FormEvent, useRef, useState } from "react";
-import TodoList from "../components/TodoList";
-import { useAddTodoMutation } from "../state/api/apiSlice";
+import { useAddTodoMutation, useGetTodosQuery } from "../state/api/apiSlice";
 import PageWrapper from "../layout/PageWrapper/PageWrapper";
 import Input from "../components/Input/Input";
+import TodosList from "../components/TodosList/TodosList";
+import TodoItem from "../components/TodoItem/TodoItem";
 
 const Home: React.FC = () => {
   const [isShowNewTodo, setIsShowNewTodo] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [addTodo, { isLoading }] = useAddTodoMutation();
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const {
+    data: todos = [],
+    isLoading: isFetchLoading,
+    isFetching,
+    isError,
+    error,
+  } = useGetTodosQuery();
 
   async function submitEventHandler(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -40,7 +49,17 @@ const Home: React.FC = () => {
             {isLoading && <span>Adding todo...</span>}
           </form>
         )}
-        <TodoList />
+
+        {/* Todos */}
+        {(isFetchLoading || isFetching) && <div>Fetching todos...</div>}
+        {isError && <div>{error.toString()}</div>}
+        <TodosList>
+          {todos.map((todoItem) => (
+            <TodoItem key={todoItem._id} _id={todoItem._id}>
+              {todoItem.text}
+            </TodoItem>
+          ))}
+        </TodosList>
       </main>
     </PageWrapper>
   );
