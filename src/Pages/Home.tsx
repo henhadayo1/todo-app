@@ -2,6 +2,7 @@ import React, { FormEvent, useRef, useState } from "react";
 import TodoList from "../components/TodoList";
 import { useAddTodoMutation } from "../state/api/apiSlice";
 import PageWrapper from "../layout/PageWrapper/PageWrapper";
+import Input from "../components/Input/Input";
 
 const Home: React.FC = () => {
   const [isShowNewTodo, setIsShowNewTodo] = useState(false);
@@ -27,9 +28,8 @@ const Home: React.FC = () => {
       </header>
       <main>
         {isShowNewTodo && (
-          // TODO: Refactoring - reuse in TodoItem component as well
           <form onSubmit={submitEventHandler}>
-            <input
+            <Input
               type="text"
               value={inputValue}
               onChange={(event) => setInputValue(event.target.value)}
